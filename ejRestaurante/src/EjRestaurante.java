@@ -16,9 +16,6 @@ public class EjRestaurante {
 		int quinientos = 500;
 		int precioTotal = 0;
 
-		// patatas, ensalada, mejillones, pan, olivas
-		// 400, 630, 380, 60, 85
-
 		String[] platos = new String[5];
 		int[] precios = new int[5];
 
