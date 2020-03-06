@@ -55,13 +55,6 @@ public class EjRestaurante {
 		System.out.println(platosPedidos);
 
 		// Fase 3
-		ArrayList<String> newPlatos = new ArrayList<>(Arrays.asList(platos));
-		for (String platoPedido : platosPedidos) {
-			if (!newPlatos.contains(platoPedido)) {
-				System.out.println("el plato elegido " + platoPedido + " no existe");
-			}
-		}
-
 		HashMap<String, Double> carta = new HashMap<>();
 		for (int i = 0; i < platos.length; i++) {
 			carta.put(platos[i], precios[i]);
@@ -79,6 +72,7 @@ public class EjRestaurante {
 		for (Map.Entry<String, Double> key : order.entrySet()) {
 			String orderKey = key.getKey();
 			if (!carta.containsKey(orderKey)) {
+				System.out.println("el plato elegido " + orderKey + " no existe");
 				order.remove(orderKey, key.getValue());
 			}
 		}
