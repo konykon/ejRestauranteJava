@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class EjRestaurante {
@@ -14,16 +18,16 @@ public class EjRestaurante {
 		int cien = 100;
 		int doscientos = 200;
 		int quinientos = 500;
-		int precioTotal = 0;
+		double precioTotal = 0.0;
 
 		String[] platos = new String[5];
-		int[] precios = new int[5];
+		Double[] precios = new Double[5];
 
 		Scanner in = new Scanner(System.in);
 		for (int i = 0; i < platos.length; i++) {
 			System.out.println("Introduce los platos y los precios: ");
 			platos[i] = in.next();
-			precios[i] = in.nextInt();
+			precios[i] = in.nextDouble();
 		}
 		System.out.println(Arrays.toString(platos));
 		System.out.println(Arrays.toString(precios));
@@ -51,19 +55,41 @@ public class EjRestaurante {
 		System.out.println(platosPedidos);
 
 		// Fase 3
-		for (int i = 0; i < platos.length; i++) {
-			if (platosPedidos.contains(platos[i])) {
-				precioTotal += precios[i];
-			}
-		}
-		System.out.println("precio total: " + precioTotal);
-
-		ArrayList<String> newPlatos = new ArrayList<String>(Arrays.asList(platos));
+		ArrayList<String> newPlatos = new ArrayList<>(Arrays.asList(platos));
 		for (String platoPedido : platosPedidos) {
 			if (!newPlatos.contains(platoPedido)) {
-				System.out.println("el plato elegido" + platoPedido + " no existe");
+				System.out.println("el plato elegido " + platoPedido + " no existe");
 			}
 		}
+
+		HashMap<String, Double> carta = new HashMap<>();
+		for (int i = 0; i < platos.length; i++) {
+			carta.put(platos[i], precios[i]);
+		}
+
+		HashMap<String, Double> order = new HashMap<>();
+		for (String plato : platosPedidos) {
+			Double count = order.get(plato);
+			if (count == null) {
+				count = 0.0;
+			}
+			order.put(plato, count + 1);
+		}
+
+		for (Map.Entry<String, Double> key : order.entrySet()) {
+			String orderKey = key.getKey();
+			if (!carta.containsKey(orderKey)) {
+				order.remove(orderKey, key.getValue());
+			}
+		}
+
+		for (String key : order.keySet()) {
+			double quantity = order.get(key);
+			double price = carta.get(key);
+			precioTotal += quantity * price;
+		}
+
+		System.out.println("precio total: " + precioTotal);
 
 	}
 }
